@@ -19,6 +19,7 @@
  */
 package br.com.voicetechnology.rtspclient.test;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -46,7 +47,7 @@ public class SETUPandTEARDOWNTest implements ClientListener
 
 	private int port;
 
-	private SETUPandTEARDOWNTest() throws Exception
+	protected SETUPandTEARDOWNTest() throws Exception
 	{
 		RTSPClient client = new RTSPClient();
 
@@ -95,7 +96,7 @@ public class SETUPandTEARDOWNTest implements ClientListener
 						client.setup(new URI(controlURI), nextPort(), resourceList
 								.remove(0));
 					else
-						client.teardown();
+						sessionSet(client);
 					break;
 				}
 			} else
@@ -124,6 +125,11 @@ public class SETUPandTEARDOWNTest implements ClientListener
 			descriptor = descriptor.substring(position + target.length());
 			resourceList.add(descriptor.substring(0, descriptor.indexOf('\r')));
 		}
+	}
+	
+	protected void sessionSet(Client client) throws IOException
+	{
+		client.teardown();	
 	}
 
 	private int nextPort()

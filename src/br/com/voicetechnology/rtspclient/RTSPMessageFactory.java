@@ -42,6 +42,7 @@ import br.com.voicetechnology.rtspclient.headers.ContentTypeHeader;
 import br.com.voicetechnology.rtspclient.headers.SessionHeader;
 import br.com.voicetechnology.rtspclient.messages.RTSPDescribeRequest;
 import br.com.voicetechnology.rtspclient.messages.RTSPOptionsRequest;
+import br.com.voicetechnology.rtspclient.messages.RTSPPlayRequest;
 import br.com.voicetechnology.rtspclient.messages.RTSPSetupRequest;
 import br.com.voicetechnology.rtspclient.messages.RTSPTeardownRequest;
 
@@ -67,6 +68,7 @@ public class RTSPMessageFactory implements MessageFactory
 			requestMap.put(Method.SETUP, RTSPSetupRequest.class);
 			requestMap.put(Method.TEARDOWN, RTSPTeardownRequest.class);
 			requestMap.put(Method.DESCRIBE, RTSPDescribeRequest.class);
+			requestMap.put(Method.PLAY, RTSPPlayRequest.class);
 		} catch(Exception e)
 		{
 			// TODO Auto-generated catch block
