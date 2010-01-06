@@ -46,6 +46,7 @@ public abstract class RTSPMessage implements Message
 	public byte[] getBytes() throws MissingHeaderException
 	{
 		getHeader(CSeqHeader.NAME);
+		addHeader(new Header("User-Agent", "RTSPClientLib/Java"));
 		byte[] message = toString().getBytes();
 		if(getEntityMessage() != null)
 		{
