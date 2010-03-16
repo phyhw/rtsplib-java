@@ -40,6 +40,7 @@ import br.com.voicetechnology.rtspclient.headers.ContentEncodingHeader;
 import br.com.voicetechnology.rtspclient.headers.ContentLengthHeader;
 import br.com.voicetechnology.rtspclient.headers.ContentTypeHeader;
 import br.com.voicetechnology.rtspclient.headers.SessionHeader;
+import br.com.voicetechnology.rtspclient.headers.TransportHeader;
 import br.com.voicetechnology.rtspclient.messages.RTSPDescribeRequest;
 import br.com.voicetechnology.rtspclient.messages.RTSPOptionsRequest;
 import br.com.voicetechnology.rtspclient.messages.RTSPPlayRequest;
@@ -58,11 +59,12 @@ public class RTSPMessageFactory implements MessageFactory
 
 		try
 		{
-			putHeader(CSeqHeader.class);
 			putHeader(ContentEncodingHeader.class);
 			putHeader(ContentLengthHeader.class);
 			putHeader(ContentTypeHeader.class);
+			putHeader(CSeqHeader.class);
 			putHeader(SessionHeader.class);
+			putHeader(TransportHeader.class);
 
 			requestMap.put(Method.OPTIONS, RTSPOptionsRequest.class);
 			requestMap.put(Method.SETUP, RTSPSetupRequest.class);
