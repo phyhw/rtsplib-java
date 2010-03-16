@@ -97,6 +97,14 @@ public class TransportHeader extends Header
 		addParameters(parameters);
 	}
 
+	public String getParameter(String part)
+	{
+		for(String parameter : parameters)
+			if(parameter.startsWith(part))
+				return parameter;
+		throw new IllegalArgumentException("No such parameter named " + part);
+	}
+
 	void addParameters(String[] parameterList)
 	{
 		if(parameters == null)
@@ -108,14 +116,6 @@ public class TransportHeader extends Header
 	LowerTransport getTransport()
 	{
 		return transport;
-	}
-
-	String getParameter(String part)
-	{
-		for(String parameter : parameters)
-			if(parameter.startsWith(part))
-				return parameter;
-		throw new IllegalArgumentException("No such parameter named " + part);
 	}
 
 	@Override
