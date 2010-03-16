@@ -84,8 +84,7 @@ public class TransportHeader extends Header
 			index += 2;
 		} else
 			transport = LowerTransport.DEFAULT;
-		++index;
-		if(value.charAt(index) != ';' || index != value.length())
+		if(value.charAt(index) != ';' && index != value.length())
 			throw new IllegalArgumentException("Parameter block expected");
 		addParameters(value.substring(++index).split(";"));
 	}
