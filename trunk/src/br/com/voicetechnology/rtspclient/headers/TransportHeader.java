@@ -81,7 +81,7 @@ public class TransportHeader extends Header
 				throw new IllegalArgumentException("Invalid Transport: "
 						+ value.substring(7));
 			}
-			index += 2;
+			index += 3;
 		} else
 			transport = LowerTransport.DEFAULT;
 		if(value.charAt(index) != ';' && index != value.length())
