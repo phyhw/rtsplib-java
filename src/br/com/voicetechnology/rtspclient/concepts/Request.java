@@ -28,7 +28,7 @@ public interface Request extends Message
 		OPTIONS, DESCRIBE, SETUP, PLAY, RECORD, TEARDOWN
 	};
 
-	void setLine(String uri, Method method) throws URISyntaxException;
+	void setLine(Method method, String uri) throws URISyntaxException;
 	
 	Method getMethod();
 	

@@ -170,7 +170,7 @@ public class RTSPMessageFactory implements MessageFactory
 		{
 			throw new RuntimeException(e);
 		}
-		message.setLine(uri, method);
+		message.setLine(method, uri);
 		fillMessage(message, cseq, extras);
 
 		return message;

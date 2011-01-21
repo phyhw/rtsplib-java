@@ -40,11 +40,11 @@ public class RTSPRequest extends RTSPMessage implements Request
 	public RTSPRequest(String messageLine) throws URISyntaxException
 	{
 		String[] parts = messageLine.split(" ");
-		setLine(parts[0], Method.valueOf(parts[1]));
+		setLine(Method.valueOf(parts[0]), parts[1]);
 	}
 
 	@Override
-	public void setLine(String uri, Method method) throws URISyntaxException
+	public void setLine(Method method, String uri) throws URISyntaxException
 	{
 		this.method = method;
 		this.uri = new URI(uri).toString();

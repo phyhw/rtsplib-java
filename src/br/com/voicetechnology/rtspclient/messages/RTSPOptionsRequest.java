@@ -36,7 +36,7 @@ public class RTSPOptionsRequest extends RTSPRequest
 	}
 	
 	@Override
-	public void setLine(String uri, Method method) throws URISyntaxException
+	public void setLine(Method method, String uri) throws URISyntaxException
 	{
 		setMethod(method);
 		setURI("*".equals(uri) ? uri : new URI(uri).toString());
