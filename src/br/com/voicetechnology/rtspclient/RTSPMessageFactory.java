@@ -16,7 +16,7 @@
     You should have received a copy of the GNU Lesser General Public License
     along with RTSPClientLib.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 package br.com.voicetechnology.rtspclient;
 
 import java.io.ByteArrayInputStream;
@@ -71,7 +71,7 @@ public class RTSPMessageFactory implements MessageFactory
 			requestMap.put(Method.TEARDOWN, RTSPTeardownRequest.class);
 			requestMap.put(Method.DESCRIBE, RTSPDescribeRequest.class);
 			requestMap.put(Method.PLAY, RTSPPlayRequest.class);
-		} catch(Exception e)
+		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,8 +88,8 @@ public class RTSPMessageFactory implements MessageFactory
 	public void incomingMessage(MessageBuffer buffer)
 			throws InvalidMessageException
 	{
-		ByteArrayInputStream in = new ByteArrayInputStream(buffer.getData(), buffer
-				.getOffset(), buffer.getLength());
+		ByteArrayInputStream in = new ByteArrayInputStream(buffer.getData(),
+				buffer.getOffset(), buffer.getLength());
 		int initial = in.available();
 		Message message = null;
 
@@ -97,29 +97,35 @@ public class RTSPMessageFactory implements MessageFactory
 		{
 			// message line.
 			String line = readLine(in);
-			if(line.startsWith(Message.RTSP_TOKEN))
+			if (line.startsWith(Message.RTSP_TOKEN))
 			{
 				message = new RTSPResponse(line);
 			} else
 			{
-				Method method = Method.valueOf(line.substring(0, line.indexOf(' ')));
+				Method method = null;
+				try
+				{
+					method = Method.valueOf(line.substring(0, line.indexOf(' ')));
+				} catch (IllegalArgumentException ilae)
+				{
+				}
 				Class<? extends Request> cls = requestMap.get(method);
-				if(cls != null)
+				if (cls != null)
 					message = cls.getConstructor(String.class).newInstance(line);
 				else
 					message = new RTSPRequest(line);
 			}
 
-			while(true)
+			while (true)
 			{
 				line = readLine(in);
-				if(in == null)
+				if (in == null)
 					throw new IncompleteMessageException();
-				if(line.length() == 0)
+				if (line.length() == 0)
 					break;
 				Constructor<? extends Header> c = headerMap.get(line.substring(0,
 						line.indexOf(':')).toLowerCase());
-				if(c != null)
+				if (c != null)
 					message.addHeader(c.newInstance(line));
 				else
 					message.addHeader(new Header(line));
@@ -130,7 +136,7 @@ public class RTSPMessageFactory implements MessageFactory
 			{
 				int length = ((ContentLengthHeader) message
 						.getHeader(ContentLengthHeader.NAME)).getValue();
-				if(in.available() < length)
+				if (in.available() < length)
 					throw new IncompleteMessageException();
 				Content content = new Content();
 				content.setDescription(message);
@@ -138,11 +144,11 @@ public class RTSPMessageFactory implements MessageFactory
 				in.read(data);
 				content.setBytes(data);
 				message.setEntityMessage(new RTSPEntityMessage(message, content));
-			} catch(MissingHeaderException e)
+			} catch (MissingHeaderException e)
 			{
 			}
 
-		} catch(Exception e)
+		} catch (Exception e)
 		{
 			throw new InvalidMessageException(e);
 		} finally
@@ -151,7 +157,7 @@ public class RTSPMessageFactory implements MessageFactory
 			try
 			{
 				in.close();
-			} catch(IOException e)
+			} catch (IOException e)
 			{
 			}
 		}
@@ -166,7 +172,7 @@ public class RTSPMessageFactory implements MessageFactory
 		try
 		{
 			message = cls != null ? cls.newInstance() : new RTSPRequest();
-		} catch(Exception e)
+		} catch (Exception e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -201,14 +207,15 @@ public class RTSPMessageFactory implements MessageFactory
 			int cseq, Header... extras)
 	{
 		Message message = outgoingResponse(code, text, cseq, extras);
-		return (Response) message.setEntityMessage(new RTSPEntityMessage(message, body));
+		return (Response) message.setEntityMessage(new RTSPEntityMessage(message,
+				body));
 	}
 
 	private void fillMessage(Message message, int cseq, Header[] extras)
 	{
 		message.addHeader(new CSeqHeader(cseq));
 
-		for(Header h : extras)
+		for (Header h : extras)
 			message.addHeader(h);
 	}
 
@@ -216,9 +223,9 @@ public class RTSPMessageFactory implements MessageFactory
 	{
 		int ch = 0;
 		StringBuilder b = new StringBuilder();
-		for(ch = in.read(); ch != -1 && ch != 0x0d && ch != 0x0a; ch = in.read())
+		for (ch = in.read(); ch != -1 && ch != 0x0d && ch != 0x0a; ch = in.read())
 			b.append((char) ch);
-		if(ch == -1)
+		if (ch == -1)
 			return null;
 		in.read();
 		return b.toString();
