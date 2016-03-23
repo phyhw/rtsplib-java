@@ -1,0 +1,1 @@
+This is a minimal RTSP client library designed for usage with a third-party RTP endpoint.
